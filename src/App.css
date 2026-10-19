@@ -763,6 +763,94 @@
   color: var(--muted);
 }
 
+/* ------------------------ Phase 3: shared controls ------------------------ */
+
+.segmented {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--stone);
+  border-radius: var(--radius-sm);
+  background: var(--surface-subtle);
+}
+
+.segmented__button {
+  flex: 1;
+  padding: 7px 10px;
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius-sm) - 2px);
+  background: transparent;
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.segmented__button:hover {
+  color: var(--forest);
+}
+
+.segmented__button[aria-pressed='true'] {
+  background: var(--surface-solid);
+  border-color: var(--stone);
+  color: var(--forest);
+}
+
+.chip--accent {
+  border-color: var(--forest);
+  background: transparent;
+  color: var(--forest);
+}
+
+.notice--warning {
+  border-color: var(--warning);
+  border-left: 3px solid var(--warning);
+  background: var(--warning-surface);
+  color: var(--warning);
+}
+
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--stone);
+  border-radius: var(--radius-sm);
+  background: var(--surface-solid);
+}
+
+.segment-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}
+
+.segment-table th,
+.segment-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--stone);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.segment-table thead th {
+  background: var(--surface-subtle);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.segment-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.segment-table .mono {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
 /* The panel stays mounted for state persistence, so hide it explicitly. */
 .tool-panel[hidden] {
   display: none;

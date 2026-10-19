@@ -3,6 +3,9 @@ import { getToolById } from '../../types/tools'
 import CoordinatesTool from './CoordinatesTool'
 import DistanceTool from './DistanceTool'
 import BearingTool from './BearingTool'
+import UtmTool from './UtmTool'
+import PolygonAreaTool from './PolygonAreaTool'
+import PolylineLengthTool from './PolylineLengthTool'
 
 interface ToolContentProps {
   id: ToolId
@@ -16,6 +19,12 @@ export default function ToolContent({ id }: ToolContentProps) {
       return <DistanceTool />
     case 'bearing':
       return <BearingTool />
+    case 'utm-converter':
+      return <UtmTool />
+    case 'polygon-area':
+      return <PolygonAreaTool />
+    case 'polyline-length':
+      return <PolylineLengthTool />
     default: {
       const tool = getToolById(id)
       return (

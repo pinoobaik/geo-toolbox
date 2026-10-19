@@ -10,7 +10,7 @@ import type { ToolId } from './types/tools'
 import './App.css'
 
 function Workspace() {
-  const { setVisualization, cancelPicking } = useMapWorkspace()
+  const { setVisualization, cancelPicking, stopCollecting } = useMapWorkspace()
   const [activeToolId, setActiveToolId] = useState<ToolId>(DEFAULT_TOOL_ID)
   const [isPanelOpen, setIsPanelOpen] = useState(true)
 
@@ -22,8 +22,9 @@ function Workspace() {
       setIsPanelOpen(true)
       setVisualization(null)
       cancelPicking()
+      stopCollecting()
     },
-    [setVisualization, cancelPicking],
+    [setVisualization, cancelPicking, stopCollecting],
   )
 
   const handleClosePanel = useCallback(() => {

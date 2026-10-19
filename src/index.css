@@ -9,6 +9,8 @@
   --muted: #6b7466;
   --danger: #b3402f;
   --danger-surface: rgba(179, 64, 47, 0.12);
+  --warning: #7a6410;
+  --warning-surface: rgba(122, 100, 16, 0.12);
 
   --surface: rgba(255, 255, 255, 0.94);
   --surface-solid: #ffffff;

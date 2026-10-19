@@ -5,19 +5,39 @@ import type { GeoPoint } from '../types/geo'
 export interface VisualizationPoint extends GeoPoint {
   readonly id: string
   readonly label?: string
+  /** When provided, clicking the marker removes the vertex. */
+  readonly onRemove?: () => void
+}
+
+export interface MapPolygon {
+  readonly ring: readonly GeoPoint[]
+  readonly holes?: readonly (readonly GeoPoint[])[]
+  /** True once there are enough vertices to close the outline. */
+  readonly closed: boolean
 }
 
 /** The geometry the active tool currently wants rendered on the map. */
 export interface MapVisualization {
   readonly points: readonly VisualizationPoint[]
-  readonly line?: readonly [GeoPoint, GeoPoint]
+  readonly line?: readonly GeoPoint[]
+  readonly polygon?: MapPolygon
 }
 
-/** A pending "click the map to choose a point" interaction. */
+/** A pending single "click the map to choose a point" interaction. */
 export interface PickRequest {
   readonly target: string
   readonly label: string
   readonly onPick: (point: GeoPoint) => void
+}
+
+/**
+ * A continuous "click the map to add a vertex" interaction used by the drawing
+ * tools. Unlike a PickRequest it stays active until explicitly stopped.
+ */
+export interface CollectionRequest {
+  readonly target: string
+  readonly label: string
+  readonly onVertex: (point: GeoPoint) => void
 }
 
 export interface MapWorkspaceValue {
@@ -28,6 +48,9 @@ export interface MapWorkspaceValue {
   readonly picking: PickRequest | null
   readonly startPicking: (request: PickRequest) => void
   readonly cancelPicking: () => void
+  readonly collecting: CollectionRequest | null
+  readonly startCollecting: (request: CollectionRequest) => void
+  readonly stopCollecting: () => void
   readonly focusOn: (point: GeoPoint) => void
 }
 

@@ -4,6 +4,7 @@ import type { Map as LeafletMap } from 'leaflet'
 import type { GeoPoint } from '../types/geo'
 import { MapWorkspaceContext } from './workspace'
 import type {
+  CollectionRequest,
   MapVisualization,
   MapWorkspaceValue,
   PickRequest,
@@ -21,6 +22,7 @@ export default function MapWorkspaceProvider({
     null,
   )
   const [picking, setPicking] = useState<PickRequest | null>(null)
+  const [collecting, setCollecting] = useState<CollectionRequest | null>(null)
 
   const registerMap = useCallback((instance: LeafletMap | null) => {
     setMap(instance)
@@ -32,6 +34,14 @@ export default function MapWorkspaceProvider({
 
   const cancelPicking = useCallback(() => {
     setPicking(null)
+  }, [])
+
+  const startCollecting = useCallback((request: CollectionRequest) => {
+    setCollecting(request)
+  }, [])
+
+  const stopCollecting = useCallback(() => {
+    setCollecting(null)
   }, [])
 
   const focusOn = useCallback(
@@ -55,6 +65,9 @@ export default function MapWorkspaceProvider({
       picking,
       startPicking,
       cancelPicking,
+      collecting,
+      startCollecting,
+      stopCollecting,
       focusOn,
     }),
     [
@@ -64,6 +77,9 @@ export default function MapWorkspaceProvider({
       picking,
       startPicking,
       cancelPicking,
+      collecting,
+      startCollecting,
+      stopCollecting,
       focusOn,
     ],
   )
