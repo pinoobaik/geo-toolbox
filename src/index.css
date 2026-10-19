@@ -7,6 +7,8 @@
   --stone: #dcddd3;
   --white: #ffffff;
   --muted: #6b7466;
+  --danger: #b3402f;
+  --danger-surface: rgba(179, 64, 47, 0.12);
 
   --surface: rgba(255, 255, 255, 0.94);
   --surface-solid: #ffffff;

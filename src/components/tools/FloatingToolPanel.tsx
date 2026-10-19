@@ -1,19 +1,23 @@
 import type { ToolDefinition } from '../../types/tools'
+import ToolContent from './ToolContent'
 import ToolIcon from './ToolIcon'
 
 interface FloatingToolPanelProps {
   tool: ToolDefinition
+  isOpen: boolean
   onClose: () => void
 }
 
 export default function FloatingToolPanel({
   tool,
+  isOpen,
   onClose,
 }: FloatingToolPanelProps) {
   return (
     <section
       className="tool-panel"
       aria-label={`${tool.name} tool panel`}
+      hidden={!isOpen}
     >
       <header className="tool-panel__header">
         <span className="tool-panel__icon" aria-hidden="true">
@@ -48,14 +52,7 @@ export default function FloatingToolPanel({
       </header>
 
       <div className="tool-panel__body">
-        <div className="tool-panel__note">
-          <span className="tool-panel__note-tag">Coming in a later phase</span>
-          <p className="tool-panel__note-text">{tool.placeholder}</p>
-        </div>
-        <p className="tool-panel__hint">
-          This workspace establishes the map-first shell. Calculation inputs
-          for {tool.name} will be added in a subsequent phase.
-        </p>
+        <ToolContent id={tool.id} />
       </div>
     </section>
   )
