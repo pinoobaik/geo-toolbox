@@ -9,6 +9,7 @@ import {
   convertArea,
 } from '../../core/polygonArea'
 import type { AreaUnit } from '../../core/polygonArea'
+import { appendVertex } from './vertexList'
 
 const AREA_UNITS: readonly AreaUnit[] = ['m2', 'ha', 'km2', 'ac']
 
@@ -27,7 +28,7 @@ export default function PolygonAreaTool() {
   const [areaUnit, setAreaUnit] = useState<AreaUnit>('ha')
 
   const addVertex = useCallback((point: GeoPoint) => {
-    setVertices((previous) => [...previous, point])
+    setVertices((previous) => appendVertex(previous, point))
   }, [])
 
   const removeVertex = useCallback((index: number) => {
@@ -212,6 +213,11 @@ export default function PolygonAreaTool() {
                 antimeridian may be inaccurate.
               </p>
             ) : null}
+
+            <p className="tool-hint">
+              Area is computed on a spherical Earth model (spherical excess
+              along great-circle edges), not an ellipsoidal geodesic.
+            </p>
           </>
         )}
       </section>

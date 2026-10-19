@@ -422,3 +422,123 @@ describe('GeoJSON — helpers', () => {
     )
   })
 })
+
+describe('GeoJSON — bounds aggregation', () => {
+  it('unions bounds across entries and ignores null geometries', () => {
+    const dataset = parseOk(
+      JSON.stringify({
+        type: 'FeatureCollection',
+        features: [
+          {
+            type: 'Feature',
+            properties: null,
+            geometry: { type: 'Point', coordinates: [0, 0] },
+          },
+          {
+            type: 'Feature',
+            properties: null,
+            geometry: null,
+          },
+          {
+            type: 'Feature',
+            properties: null,
+            geometry: {
+              type: 'LineString',
+              coordinates: [
+                [10, 5],
+                [-4, -6],
+              ],
+            },
+          },
+        ],
+      }),
+    )
+    expect(dataset.bounds).toEqual({
+      minLongitude: -4,
+      minLatitude: -6,
+      maxLongitude: 10,
+      maxLatitude: 5,
+    })
+  })
+
+  it('reports no bounds when no entry has valid positions', () => {
+    const dataset = parseOk(
+      JSON.stringify({
+        type: 'FeatureCollection',
+        features: [
+          { type: 'Feature', properties: null, geometry: null },
+          {
+            type: 'Feature',
+            properties: null,
+            geometry: { type: 'GeometryCollection', geometries: [] },
+          },
+        ],
+      }),
+    )
+    expect(dataset.bounds).toBeNull()
+    expect(dataset.hasGeometry).toBe(false)
+  })
+})
+
+describe('GeoJSON — interoperability of metadata and coordinate order', () => {
+  const source = {
+    type: 'FeatureCollection',
+    features: [
+      {
+        type: 'Feature',
+        id: 'poly-1',
+        properties: { name: 'With hole', area: 12.5, flag: true },
+        geometry: {
+          type: 'Polygon',
+          coordinates: [
+            [
+              [100, 0],
+              [101, 0],
+              [101, 1],
+              [100, 1],
+              [100, 0],
+            ],
+            [
+              [100.2, 0.2],
+              [100.4, 0.2],
+              [100.4, 0.4],
+              [100.2, 0.2],
+            ],
+          ],
+        },
+      },
+    ],
+  }
+
+  it('preserves polygon holes and metadata in the source export', () => {
+    const dataset = parseOk(JSON.stringify(source))
+    const exported = JSON.parse(buildGeoJsonExport(dataset, 'source'))
+    expect(exported).toEqual(source)
+  })
+
+  it('preserves polygon holes and metadata when normalised to a FeatureCollection', () => {
+    const dataset = parseOk(JSON.stringify(source))
+    const exported = JSON.parse(
+      buildGeoJsonExport(dataset, 'feature-collection'),
+    )
+    expect(exported.features[0].id).toBe('poly-1')
+    expect(exported.features[0].properties).toEqual(source.features[0].properties)
+    expect(exported.features[0].geometry).toEqual(
+      source.features[0].geometry,
+    )
+  })
+
+  it('keeps [longitude, latitude] order through both export modes', () => {
+    const dataset = parseOk(
+      '{"type":"Point","coordinates":[110.3695,-7.7956]}',
+    )
+    for (const mode of ['source', 'feature-collection'] as const) {
+      const exported = JSON.parse(buildGeoJsonExport(dataset, mode))
+      const coordinates =
+        mode === 'source'
+          ? exported.coordinates
+          : exported.features[0].geometry.coordinates
+      expect(coordinates).toEqual([110.3695, -7.7956])
+    }
+  })
+})

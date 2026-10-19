@@ -8,6 +8,7 @@ import {
   formatLength,
 } from '../../core/polylineLength'
 import { formatDecimalDegrees } from '../../core/coordinates'
+import { appendVertex } from './vertexList'
 
 const COORD_PRECISION = 5
 
@@ -19,7 +20,7 @@ export default function PolylineLengthTool() {
   const [unit, setUnit] = useState<DistanceUnit>('kilometers')
 
   const addVertex = useCallback((point: GeoPoint) => {
-    setVertices((previous) => [...previous, point])
+    setVertices((previous) => appendVertex(previous, point))
   }, [])
 
   const removeVertex = useCallback((index: number) => {
@@ -205,6 +206,11 @@ export default function PolylineLengthTool() {
                 </tbody>
               </table>
             </div>
+
+            <p className="tool-hint">
+              Segment lengths use the spherical great-circle model shared with
+              the Distance tool.
+            </p>
           </>
         )}
       </section>

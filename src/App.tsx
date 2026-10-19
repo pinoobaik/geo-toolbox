@@ -4,6 +4,7 @@ import FloatingToolPanel from './components/tools/FloatingToolPanel'
 import ToolDock from './components/tools/ToolDock'
 import MapView from './map/MapView'
 import MapWorkspaceProvider from './map/MapWorkspaceProvider'
+import { planToolSwitch } from './map/toolSwitch'
 import { useMapWorkspace } from './map/workspace'
 import { DEFAULT_TOOL_ID, getToolById } from './types/tools'
 import type { ToolId } from './types/tools'
@@ -18,13 +19,16 @@ function Workspace() {
 
   const handleSelectTool = useCallback(
     (id: ToolId) => {
-      setActiveToolId(id)
       setIsPanelOpen(true)
+      if (!planToolSwitch(activeToolId, id).resetsTransientState) {
+        return
+      }
+      setActiveToolId(id)
       setVisualization(null)
       cancelPicking()
       stopCollecting()
     },
-    [setVisualization, cancelPicking, stopCollecting],
+    [activeToolId, setVisualization, cancelPicking, stopCollecting],
   )
 
   const handleClosePanel = useCallback(() => {

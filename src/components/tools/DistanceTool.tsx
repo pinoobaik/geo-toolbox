@@ -234,6 +234,11 @@ export default function DistanceTool() {
             ))}
           </select>
         </div>
+
+        <p className="tool-hint">
+          Great-circle distance on a spherical Earth model (mean radius
+          6371.0088 km), not an ellipsoidal geodesic.
+        </p>
       </section>
     </>
   )

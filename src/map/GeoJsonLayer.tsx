@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { CircleMarker, Polygon, Polyline } from 'react-leaflet'
 import type { LatLngTuple, PathOptions } from 'leaflet'
 import { useMapWorkspace } from './workspace'
@@ -56,13 +57,12 @@ function markerStyle(selected: boolean): PathOptions {
   }
 }
 
-function GeometryShape({
-  geometry,
-  selected,
-}: {
+interface GeometryShapeProps {
   geometry: GeoJsonGeometry
   selected: boolean
-}) {
+}
+
+function GeometryShapeImpl({ geometry, selected }: GeometryShapeProps) {
   switch (geometry.type) {
     case 'Point':
       return (
@@ -139,6 +139,14 @@ function GeometryShape({
       return null
   }
 }
+
+/**
+ * Memoised so that selecting a feature (which flips the `selected` flag for at
+ * most two entries) does not re-create Leaflet layers for every other entry in
+ * a large imported dataset. Geometry references are stable for the lifetime of
+ * a dataset, so the shallow comparison is sufficient.
+ */
+const GeometryShape = memo(GeometryShapeImpl)
 
 export default function GeoJsonLayer() {
   const { geoJson, selectedGeoJsonEntry } = useMapWorkspace()

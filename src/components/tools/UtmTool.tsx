@@ -365,6 +365,11 @@ export default function UtmTool() {
                     Show on map
                   </button>
                 </div>
+                <p className="tool-hint">
+                  UTM uses the WGS84 ellipsoid via proj4. The Distance, Bearing
+                  and area tools use a spherical model, so results differ
+                  slightly.
+                </p>
               </>
             ) : (
               <div className="empty-state">
