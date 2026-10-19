@@ -851,6 +851,143 @@
   white-space: nowrap;
 }
 
+/* ------------------------- Phase 4: GeoJSON tool -------------------------- */
+
+.dataset-name {
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tool-section__subtitle {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feature-list__button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--stone);
+  border-left: 3px solid transparent;
+  border-radius: var(--radius-sm);
+  background: var(--surface-solid);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.feature-list__button:hover:not(:disabled) {
+  background: var(--surface-subtle);
+  border-color: var(--muted);
+}
+
+.feature-list__button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.feature-list__button[aria-pressed='true'] {
+  border-color: var(--forest);
+  border-left-color: var(--forest);
+  background: var(--surface-subtle);
+}
+
+.feature-list__index {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  background: var(--surface-subtle);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.feature-list__button[aria-pressed='true'] .feature-list__index {
+  background: var(--forest);
+  color: var(--lime);
+}
+
+.feature-list__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.feature-list__label {
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.feature-list__meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.property-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 0;
+  overflow: hidden;
+  background: var(--stone);
+  border: 1px solid var(--stone);
+  border-radius: var(--radius-sm);
+}
+
+.property-list__row {
+  display: grid;
+  grid-template-columns: minmax(0, 38%) 1fr;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-solid);
+}
+
+.property-list__key {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.property-list__value {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
 /* The panel stays mounted for state persistence, so hide it explicitly. */
 .tool-panel[hidden] {
   display: none;

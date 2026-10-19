@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Map as LeafletMap } from 'leaflet'
 import type { GeoPoint } from '../types/geo'
+import type { GeoJsonDataset } from '../core/geojson'
 import { MapWorkspaceContext } from './workspace'
 import type {
   CollectionRequest,
@@ -23,6 +24,10 @@ export default function MapWorkspaceProvider({
   )
   const [picking, setPicking] = useState<PickRequest | null>(null)
   const [collecting, setCollecting] = useState<CollectionRequest | null>(null)
+  const [geoJson, setGeoJson] = useState<GeoJsonDataset | null>(null)
+  const [selectedGeoJsonEntry, setSelectedGeoJsonEntry] = useState<number | null>(
+    null,
+  )
 
   const registerMap = useCallback((instance: LeafletMap | null) => {
     setMap(instance)
@@ -68,6 +73,10 @@ export default function MapWorkspaceProvider({
       collecting,
       startCollecting,
       stopCollecting,
+      geoJson,
+      setGeoJson,
+      selectedGeoJsonEntry,
+      setSelectedGeoJsonEntry,
       focusOn,
     }),
     [
@@ -80,6 +89,8 @@ export default function MapWorkspaceProvider({
       collecting,
       startCollecting,
       stopCollecting,
+      geoJson,
+      selectedGeoJsonEntry,
       focusOn,
     ],
   )

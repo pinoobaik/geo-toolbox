@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react'
 import type { Map as LeafletMap } from 'leaflet'
 import type { GeoPoint } from '../types/geo'
+import type { GeoJsonDataset } from '../core/geojson'
 
 export interface VisualizationPoint extends GeoPoint {
   readonly id: string
@@ -51,6 +52,15 @@ export interface MapWorkspaceValue {
   readonly collecting: CollectionRequest | null
   readonly startCollecting: (request: CollectionRequest) => void
   readonly stopCollecting: () => void
+  /**
+   * Imported GeoJSON, kept separate from the transient measurement
+   * `visualization` so importing a file never overwrites an active drawing.
+   */
+  readonly geoJson: GeoJsonDataset | null
+  readonly setGeoJson: (dataset: GeoJsonDataset | null) => void
+  /** Index of the selected imported entry, or null when nothing is selected. */
+  readonly selectedGeoJsonEntry: number | null
+  readonly setSelectedGeoJsonEntry: (index: number | null) => void
   readonly focusOn: (point: GeoPoint) => void
 }
 

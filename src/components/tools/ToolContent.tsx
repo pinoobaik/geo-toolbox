@@ -6,6 +6,7 @@ import BearingTool from './BearingTool'
 import UtmTool from './UtmTool'
 import PolygonAreaTool from './PolygonAreaTool'
 import PolylineLengthTool from './PolylineLengthTool'
+import GeoJsonTool from './GeoJsonTool'
 
 interface ToolContentProps {
   id: ToolId
@@ -25,6 +26,8 @@ export default function ToolContent({ id }: ToolContentProps) {
       return <PolygonAreaTool />
     case 'polyline-length':
       return <PolylineLengthTool />
+    case 'geojson':
+      return <GeoJsonTool />
     default: {
       const tool = getToolById(id)
       return (

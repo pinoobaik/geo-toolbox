@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { MapContainer, ScaleControl, TileLayer, useMap } from 'react-leaflet'
 import type { LatLngTuple, Map as LeafletMap } from 'leaflet'
 import MapControls from '../components/map/MapControls'
+import GeoJsonLayer from './GeoJsonLayer'
 import WorkspaceMapOverlay from './WorkspaceMapOverlay'
 import { useMapWorkspace } from './workspace'
 
@@ -47,6 +48,7 @@ export default function MapView() {
         <ScaleControl position="bottomleft" imperial={false} />
         <MapBridge onMapReady={registerMap} />
         <WorkspaceMapOverlay />
+        <GeoJsonLayer />
       </MapContainer>
       <MapControls map={map} />
     </div>
